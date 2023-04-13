@@ -13,26 +13,28 @@ export class UserRepository {
     });
 
     const result = await this.repository.save(userEntity);
-    return this.mapEntityToModel(result);
+    return UserRepository.mapEntityToModel(result);
   }
 
   public async verifyUserExist(
     username: string,
     password?: string
   ): Promise<User | null> {
-    const result = await this.repository.findOneBy({
-      username,
-      password,
+    const result = await this.repository.findOne({
+      where: {
+        username: username,
+        password: password,
+      },
     });
 
     if (!result) {
       return null;
     }
 
-    return this.mapEntityToModel(result);
+    return UserRepository.mapEntityToModel(result);
   }
 
-  private mapEntityToModel(entity: UserEntity): User {
+  public static mapEntityToModel(entity: UserEntity): User {
     return User.create(entity.id, entity.username, entity.password);
   }
 }

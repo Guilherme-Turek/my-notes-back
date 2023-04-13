@@ -5,7 +5,11 @@ import { LoginValidator } from "../validators/login.validator";
 export const loginRoutes = () => {
   const router = Router();
 
-  router.post("/", [LoginValidator.ValidateLogin], new LoginController().login);
+  router.post(
+    "/",
+    [LoginValidator.MandatoryFields, LoginValidator.ValidateData],
+    new LoginController().login
+  );
 
   return router;
 };
