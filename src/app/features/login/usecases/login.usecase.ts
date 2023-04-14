@@ -8,11 +8,16 @@ interface LoginParams {
 export class LoginUsecase {
   public async execute(data: LoginParams) {
     const repository = new UserRepository();
-    const user = await repository.verifyUserExist(data.username, data.password);
+    const user = await repository.getByUsername(data.username, data.password);
 
     if (!user) {
-      return null;
+      return {
+        ok: false,
+        code: 404,
+        message: "User not found",
+      };
     }
+
     return user;
   }
 }

@@ -4,11 +4,7 @@ import { Note } from "./note.model";
 export class User {
   private _id: string;
 
-  constructor(
-    public username: string,
-    public password: string,
-    public notes?: Note[]
-  ) {
+  constructor(public username: string, public password: string) {
     this._id = createUuid();
   }
 
@@ -16,7 +12,6 @@ export class User {
     return {
       id: this._id,
       username: this.username,
-      notes: this.notes,
     };
   }
 

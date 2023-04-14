@@ -16,15 +16,13 @@ export class UserRepository {
     return UserRepository.mapEntityToModel(result);
   }
 
-  public async verifyUserExist(
+  public async getByUsername(
     username: string,
     password?: string
   ): Promise<User | null> {
-    const result = await this.repository.findOne({
-      where: {
-        username: username,
-        password: password,
-      },
+    const result = await this.repository.findOneBy({
+      username,
+      password,
     });
 
     if (!result) {

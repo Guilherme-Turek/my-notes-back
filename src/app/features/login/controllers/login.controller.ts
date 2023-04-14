@@ -15,7 +15,7 @@ export class LoginController {
         return RequestError.notFound(res, "User not found");
       }
 
-      return SucessResponse.ok(res, "User logged", result.toJson());
+      return SucessResponse.ok(res, "User logged", result);
     } catch (error: any) {
       return ServerError.genericError(res, error);
     }

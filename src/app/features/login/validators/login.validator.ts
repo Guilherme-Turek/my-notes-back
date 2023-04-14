@@ -27,7 +27,7 @@ export class LoginValidator {
     try {
       const { username, password } = req.body;
       const repository = new UserRepository();
-      const user = repository.verifyUserExist(username, password);
+      const user = repository.getByUsername(username, password);
 
       if (user === null) {
         return RequestError.notFound(res, "User not found");
