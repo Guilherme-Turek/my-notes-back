@@ -13,22 +13,24 @@ export class Note {
   constructor(
     public title: string,
     public description: string,
-    public user: User
+    public idUser: string
   ) {
     this._id = createUuid();
     this.status = NoteStatus.filed;
   }
 
-  public create(
+  public static create(
     id: string,
     title: string,
     description: string,
-    user: User,
+    idUser: string,
     status: NoteStatus
   ) {
-    const note = new Note(title, description, user);
+    const note = new Note(title, description, idUser);
     note._id = id;
     note.status = status;
+
+    return note;
   }
 
   public get id() {
