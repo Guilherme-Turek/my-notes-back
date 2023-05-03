@@ -33,6 +33,16 @@ export class Note {
     return note;
   }
 
+  public toJson() {
+    return {
+      id: this._id,
+      title: this.title,
+      description: this.description,
+      status: this.status,
+      idUser: this.idUser,
+    };
+  }
+
   public get id() {
     return this._id;
   }

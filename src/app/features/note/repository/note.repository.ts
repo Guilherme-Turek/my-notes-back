@@ -33,6 +33,21 @@ export class NoteRepository {
     return NoteRepository.mapEntityToModel(result);
   }
 
+  public async list(idUser: string) {
+    const result = await this.repository.find({
+      where: {
+        idUser,
+      },
+      relations: ["user"],
+    });
+
+    if (result === null) {
+      return null;
+    }
+
+    return result.map((note) => NoteRepository.mapEntityToModel(note));
+  }
+
   public static mapEntityToModel(entity: NoteEntity): Note {
     const user = UserRepository.mapEntityToModel(entity.user);
 
