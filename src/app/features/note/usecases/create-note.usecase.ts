@@ -1,4 +1,5 @@
 import { Note } from "../../../models/note.model";
+import { CacheRepository } from "../../../shared/repositories/cache.repository";
 import { UserRepository } from "../../user/repository/user.repository";
 import { NoteRepository } from "../repository/note.repository";
 
@@ -24,13 +25,16 @@ export class CreateNoteusecase {
     const note = new Note(data.title, data.description, user.id);
 
     const repository = new NoteRepository();
-    await repository.create(note);
+    const result = await repository.create(note);
+
+    const cacheReposiroty = new CacheRepository();
+    await cacheReposiroty.delete("notes");
 
     return {
       ok: true,
       code: 201,
       message: "Note created",
-      data: note,
+      data: result,
     };
   }
 }
