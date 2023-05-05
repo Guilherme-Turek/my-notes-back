@@ -40,7 +40,7 @@ export class NoteController {
 
       const result = await new ListNotesUsecase().execute(id);
 
-      return res.status(result.code).send(result.data);
+      return res.status(result.code).send(result);
     } catch (error: any) {
       return ServerError.genericError(error, res);
     }
