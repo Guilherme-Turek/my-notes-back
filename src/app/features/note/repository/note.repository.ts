@@ -48,6 +48,48 @@ export class NoteRepository {
     return result.map((note) => NoteRepository.mapEntityToModel(note));
   }
 
+  public async getById(id: string) {
+    const result = await this.repository.findOneBy({
+      id,
+    });
+
+    if (!result) {
+      return null;
+    }
+
+    return NoteRepository.mapEntityToModel(result);
+  }
+
+  public async delete(id: string) {
+    const result = await this.repository.delete({
+      id,
+    });
+
+    return result.affected ?? 0;
+  }
+
+  public async update(id: string, data?: any) {
+    const result = await this.repository.update(
+      {
+        id,
+      },
+      {
+        title: data.title,
+        description: data.description,
+        status: data.status,
+      }
+    );
+
+    if (result.affected === 1) {
+      return {
+        id,
+        data,
+      };
+    }
+
+    return null;
+  }
+
   public static mapEntityToModel(entity: NoteEntity): Note {
     const user = UserRepository.mapEntityToModel(entity.user);
 

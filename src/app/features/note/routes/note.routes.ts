@@ -6,6 +6,7 @@ export const notesRoutes = () => {
 
   router.post("/", new NoteController().create);
   router.get("/", new NoteController().list);
+  router.delete("/:id", new NoteController().delete);
 
   return router;
 };
