@@ -68,22 +68,30 @@ export class NoteRepository {
     return result.affected ?? 0;
   }
 
-  public async update(id: string, data?: any) {
+  public async update(
+    id: string,
+    title?: string,
+    description?: string,
+    status?: NoteStatus
+  ) {
     const result = await this.repository.update(
       {
         id,
       },
       {
-        title: data.title,
-        description: data.description,
-        status: data.status,
+        title: title,
+        description: description,
+        status: status,
+        dthrUpdate: new Date(),
       }
     );
 
     if (result.affected === 1) {
       return {
         id,
-        data,
+        title,
+        description,
+        status,
       };
     }
 
