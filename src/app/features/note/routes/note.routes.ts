@@ -4,10 +4,10 @@ import { NoteController } from "../controllers/note.controller";
 export const notesRoutes = () => {
   const router = Router();
 
-  router.post("/", new NoteController().create);
-  router.get("/", new NoteController().list);
-  router.delete("/:id", new NoteController().delete);
-  router.put("/:id", new NoteController().update);
+  router.post("/:idUser/notes", new NoteController().create);
+  router.get("/:idUser/notes", new NoteController().list);
+  router.delete("/:idUser/notes/:id", new NoteController().delete);
+  router.put("/:idUser/notes/:id", new NoteController().update);
 
   return router;
 };

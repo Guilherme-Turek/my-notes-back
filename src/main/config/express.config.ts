@@ -11,7 +11,7 @@ export const createApp = () => {
 
   app.use("/users", userRoutes());
   app.use("/login", loginRoutes());
-  app.use("/users/:idUser/notes", notesRoutes());
+  app.use("/users", notesRoutes());
 
   return app;
 };

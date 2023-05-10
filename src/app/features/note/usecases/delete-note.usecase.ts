@@ -2,7 +2,7 @@ import { CacheRepository } from "../../../shared/repositories/cache.repository";
 import { NoteRepository } from "../repository/note.repository";
 
 export class DeleteNoteUsecase {
-  public async execute(id: string) {
+  public async execute(id: string, idUser: string) {
     const repository = new NoteRepository();
     const result = await repository.delete(id);
 
@@ -15,7 +15,7 @@ export class DeleteNoteUsecase {
     }
 
     const cacheReposiroty = new CacheRepository();
-    await cacheReposiroty.delete("notes");
+    await cacheReposiroty.delete(`notesOfUser:${idUser}`);
 
     return {
       ok: true,

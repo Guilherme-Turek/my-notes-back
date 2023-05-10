@@ -32,37 +32,37 @@ export class NoteController {
 
       return res.status(result.code).send(result);
     } catch (error: any) {
-      return ServerError.genericError(error, res);
+      return ServerError.genericError(res, error);
     }
   }
 
   public async list(req: Request, res: Response) {
     try {
-      const { id } = req.params;
+      const { idUser } = req.params;
 
-      const result = await new ListNotesUsecase().execute(id);
+      const result = await new ListNotesUsecase().execute(idUser);
 
       return res.status(result.code).send(result);
     } catch (error: any) {
-      return ServerError.genericError(error, res);
+      return ServerError.genericError(res, error);
     }
   }
 
   public async delete(req: Request, res: Response) {
     try {
-      const { id } = req.params;
+      const { id, idUser } = req.params;
 
-      const result = await new DeleteNoteUsecase().execute(id);
+      const result = await new DeleteNoteUsecase().execute(id, idUser);
 
       return res.status(result.code).send(result);
     } catch (error: any) {
-      return ServerError.genericError(error, res);
+      return ServerError.genericError(res, error);
     }
   }
 
   public async update(req: Request, res: Response) {
     try {
-      const { idUser, id } = req.params;
+      const { id, idUser } = req.params;
       const { title, description, status } = req.body;
 
       const usecase = new UpdateNoteUsecase();
@@ -76,7 +76,7 @@ export class NoteController {
 
       return res.status(result.code).send(result.data);
     } catch (error: any) {
-      return ServerError.genericError(error, res);
+      return ServerError.genericError(res, error);
     }
   }
 }

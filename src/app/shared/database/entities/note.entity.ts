@@ -32,7 +32,7 @@ export class NoteEntity {
   })
   idUser: string;
 
-  @ManyToOne(() => UserEntity)
+  @ManyToOne(() => UserEntity, (user) => user.id)
   @JoinColumn({
     name: "id_user",
   })

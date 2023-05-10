@@ -4,8 +4,8 @@ import { UserRepository } from "../../user/repository/user.repository";
 import { NoteRepository } from "../repository/note.repository";
 
 interface uptadeNoteParams {
-  idUser: string;
   id: string;
+  idUser: string;
   title?: string;
   description?: string;
   status?: NoteStatus;
@@ -13,17 +13,6 @@ interface uptadeNoteParams {
 
 export class UpdateNoteUsecase {
   public async execute(data: uptadeNoteParams) {
-    const userRepository = new UserRepository();
-    const user = await userRepository.get(data.idUser);
-
-    if (!user) {
-      return {
-        ok: false,
-        code: 404,
-        message: "User not found",
-      };
-    }
-
     const noteRepository = new NoteRepository();
     const note = await noteRepository.getById(data.id);
 
@@ -42,7 +31,7 @@ export class UpdateNoteUsecase {
       data.status
     );
 
-    await new CacheRepository().delete("notes");
+    await new CacheRepository().delete(`notesOfUser:${data.idUser}`);
 
     return {
       ok: true,

@@ -1,7 +1,6 @@
 import { TypeormConnection } from "../../../../main/database/typeorm.connection";
 import { Note, NoteStatus } from "../../../models/note.model";
 import { NoteEntity } from "../../../shared/database/entities/note.entity";
-import { UserRepository } from "../../user/repository/user.repository";
 
 export class NoteRepository {
   private repository = TypeormConnection.connection.getRepository(NoteEntity);
@@ -49,9 +48,14 @@ export class NoteRepository {
   }
 
   public async getById(id: string) {
-    const result = await this.repository.findOneBy({
-      id,
+    const result = await this.repository.findOne({
+      where: {
+        id,
+      },
+      relations: ["user"],
     });
+
+    console.log("result", result);
 
     if (!result) {
       return null;
@@ -82,7 +86,6 @@ export class NoteRepository {
         title: title,
         description: description,
         status: status,
-        dthrUpdate: new Date(),
       }
     );
 
@@ -99,10 +102,8 @@ export class NoteRepository {
   }
 
   public static mapEntityToModel(entity: NoteEntity): Note {
-    const user = UserRepository.mapEntityToModel(entity.user);
-
     const note = Note.create(
-      entity.id,
+      entity.id.trim(),
       entity.title,
       entity.description,
       entity.idUser,

@@ -28,7 +28,7 @@ export class CreateNoteusecase {
     const result = await repository.create(note);
 
     const cacheReposiroty = new CacheRepository();
-    await cacheReposiroty.delete("notes");
+    await cacheReposiroty.delete(`notesOfUser:${data.idUser}`);
 
     return {
       ok: true,

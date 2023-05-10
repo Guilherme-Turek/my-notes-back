@@ -1,11 +1,10 @@
 import { CacheRepository } from "../../../shared/repositories/cache.repository";
 import { NoteRepository } from "../repository/note.repository";
 
-const noteListCacheKey = "notes";
 export class ListNotesUsecase {
   public async execute(idUser: string) {
     const cacheReposiroty = new CacheRepository();
-    const cachedResult = await cacheReposiroty.get<any>(noteListCacheKey);
+    const cachedResult = await cacheReposiroty.get(`notesOfUser:${idUser}`);
 
     if (cachedResult !== null) {
       return {
@@ -21,7 +20,7 @@ export class ListNotesUsecase {
 
     const result = notes?.map((note) => note.toJson());
 
-    await cacheReposiroty.set(noteListCacheKey, result);
+    await cacheReposiroty.set(`notesOfUser:${idUser}`, result);
 
     return {
       ok: true,
