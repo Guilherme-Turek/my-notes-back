@@ -13,6 +13,17 @@ interface uptadeNoteParams {
 
 export class UpdateNoteUsecase {
   public async execute(data: uptadeNoteParams) {
+    const userRepository = new UserRepository();
+    const user = await userRepository.get(data.idUser);
+
+    if (!user) {
+      return {
+        ok: false,
+        code: 404,
+        message: "Usuário não encontrado",
+      };
+    }
+
     const noteRepository = new NoteRepository();
     const note = await noteRepository.getById(data.id);
 
