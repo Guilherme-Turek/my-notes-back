@@ -5,12 +5,17 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only ./src/index.ts",
-    "postinstall": "npm install typescript && npx tsc",
+    "postinstall": "npx tsc",
+    "start": "node ./build/index.js",
     "typeorm": "typeorm-ts-node-commonjs",
     "migration:generate": "npm run typeorm migration:generate -- -d ./src/main/config/typeorm.config.ts",
     "migration:create": "npm run typeorm migration:create",
     "migration:run": "npm run typeorm migration:run -- -d ./src/main/config/typeorm.config.ts",
-    "migration:revert": "npm run typeorm migration:revert -- -d ./src/main/config/typeorm.config.ts"
+    "migration:revert": "npm run typeorm migration:revert -- -d ./src/main/config/typeorm.config.ts",
+    "test": "jest --silent --noStrackTrace --runInBand",
+    "test:verbose": "jest --verbose --runInBand --detectOpenHandles",
+    "test:coverage": "jest --runInBand --coverage",
+    "test:watch": "jest --silent --noStrackTrace --runInBand --watchAll"
   },
   "keywords": [],
   "author": "",
