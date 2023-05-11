@@ -5,8 +5,8 @@ let entities = "src/app/shared/database/entities/**/*.ts";
 let migrations = "src/app/shared/database/migrations/**/*.ts";
 
 if (databaseEnv.nodeEnv !== "dev") {
-  entities = "src/app/shared/database/entities/**/*.js";
-  migrations = "src/app/shared/database/migrations/**/*.js";
+  entities = "build/app/shared/database/entities/**/*.js";
+  migrations = "build/app/shared/database/migrations/**/*.js";
 }
 
 export default new DataSource({
