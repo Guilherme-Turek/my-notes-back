@@ -11,9 +11,9 @@ interface CreateUserParams {
 export class CreateUserUsecase {
   public async execute(data: CreateUserParams): Promise<Return> {
     const repository = new UserRepository();
-    const user = repository.getByUsername(data.username);
+    const user = await repository.getByUsername(data.username);
 
-    if (user === null) {
+    if (user) {
       return {
         ok: false,
         code: 400,
