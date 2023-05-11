@@ -1,10 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { ServerError } from "../../../shared/errors/server.error";
 import { RequestError } from "../../../shared/errors/request.error";
-import { UserRepository } from "../repository/user.repository";
 
 export class UserValidatorCreate {
-  public static validateCreate(
+  public static MandatoryFields(
     req: Request,
     res: Response,
     next: NextFunction

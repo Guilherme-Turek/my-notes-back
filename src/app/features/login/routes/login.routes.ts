@@ -7,7 +7,7 @@ export const loginRoutes = () => {
 
   router.post(
     "/",
-    [LoginValidator.MandatoryFields, LoginValidator.ValidateData],
+    [LoginValidator.MandatoryFields],
     new LoginController().login
   );
 

@@ -7,7 +7,7 @@ export const userRoutes = () => {
 
   router.post(
     "/",
-    [UserValidatorCreate.validateCreate],
+    [UserValidatorCreate.MandatoryFields],
     new UserController().create
   );
 
