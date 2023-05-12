@@ -11,11 +11,7 @@ export class LoginController {
 
       const result = await new LoginUsecase().execute(req.body);
 
-      if (!result) {
-        return RequestError.notFound(res, "User not found");
-      }
-
-      return SucessResponse.ok(res, "User logged", result);
+      return SucessResponse.ok(res, "User logged", result.data);
     } catch (error: any) {
       return ServerError.genericError(res, error);
     }

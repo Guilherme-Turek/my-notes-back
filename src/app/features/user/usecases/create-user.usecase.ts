@@ -2,7 +2,7 @@ import { UserRepository } from "../repository/user.repository";
 import { User } from "../../../models/user.model";
 import { Return } from "../../../shared/utils/return.contract";
 
-interface CreateUserParams {
+export interface CreateUserParams {
   username: string;
   password: string;
   confirmPassword: string;

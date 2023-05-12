@@ -7,16 +7,16 @@ export class RequestError {
       message: field + " was not provided!",
     });
   }
-  public static notFound(res: Response, msg: string) {
+  public static notFound(res: Response, message: string) {
     return res.status(404).send({
       ok: false,
-      msg,
+      message,
     });
   }
-  public static invalidData(res: Response, msg: string) {
-    return res.status(400).send({
+  public static invalidData(res: Response, message: string) {
+    return res.status(401).send({
       ok: false,
-      msg,
+      message,
     });
   }
 }
