@@ -14,7 +14,8 @@ export class NoteRepository {
       idUser: note.idUser,
     });
 
-    await this.repository.save(noteEntity);
+    const result = await this.repository.save(noteEntity);
+    return NoteRepository.mapEntityToModel(result);
   }
 
   public async get(id: string) {

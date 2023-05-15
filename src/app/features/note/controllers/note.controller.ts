@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ServerError } from "../../../shared/errors/server.error";
-import { CreateNoteusecase } from "../usecases/create-note.usecase";
+import { CreateNoteUsecase } from "../usecases/create-note.usecase";
 import { UserRepository } from "../../user/repository/user.repository";
 import { ListNotesUsecase } from "../usecases/list-notes.usecase";
 import { DeleteNoteUsecase } from "../usecases/delete-note.usecase";
@@ -12,18 +12,7 @@ export class NoteController {
       const { idUser } = req.params;
       const { title, description } = req.body;
 
-      const userRepository = new UserRepository();
-      const user = userRepository.get(idUser);
-
-      if (!user) {
-        return {
-          ok: false,
-          code: 404,
-          message: "Usuário não encontrado",
-        };
-      }
-
-      const usecase = new CreateNoteusecase();
+      const usecase = new CreateNoteUsecase();
       const result = await usecase.execute({
         title,
         description,

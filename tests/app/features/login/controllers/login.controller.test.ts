@@ -1,10 +1,7 @@
 import request from "supertest";
 import { TypeormConnection } from "../../../../../src/main/database/typeorm.connection";
 import { createApp } from "../../../../../src/main/config/express.config";
-import { CreateUserUsecase } from "../../../../../src/app/features/user/usecases/create-user.usecase";
 import { LoginUsecase } from "../../../../../src/app/features/login/usecases/login.usecase";
-import { LoginController } from "../../../../../src/app/features/login/controllers/login.controller";
-import { UserRepository } from "../../../../../src/app/features/user/repository/user.repository";
 describe("Create user controller tests", () => {
   beforeAll(async () => {
     await TypeormConnection.connect();

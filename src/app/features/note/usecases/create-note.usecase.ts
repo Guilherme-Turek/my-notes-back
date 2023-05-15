@@ -1,5 +1,6 @@
 import { Note } from "../../../models/note.model";
 import { CacheRepository } from "../../../shared/repositories/cache.repository";
+import { Return } from "../../../shared/utils/return.contract";
 import { UserRepository } from "../../user/repository/user.repository";
 import { NoteRepository } from "../repository/note.repository";
 
@@ -9,8 +10,8 @@ interface CreateNoteParams {
   idUser: string;
 }
 
-export class CreateNoteusecase {
-  public async execute(data: CreateNoteParams) {
+export class CreateNoteUsecase {
+  public async execute(data: CreateNoteParams): Promise<Return> {
     const userRepository = new UserRepository();
     const user = await userRepository.get(data.idUser);
 
