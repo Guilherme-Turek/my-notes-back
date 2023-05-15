@@ -8,11 +8,11 @@ export class SucessResponse {
       data,
     });
   }
-  public static created(res: Response, msg: string, data: any) {
-    return res.status(201).send({
-      ok: true,
-      msg,
-      data,
-    });
-  }
+  // public static created(res: Response, msg: string, data: any) {
+  //   return res.status(201).send({
+  //     ok: true,
+  //     msg,
+  //     data,
+  //   });
+  // }
 }

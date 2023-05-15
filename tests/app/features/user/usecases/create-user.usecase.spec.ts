@@ -64,31 +64,4 @@ describe("Create user usecase tests", () => {
     expect(result.data.id).toBeDefined();
     expect(result.data.id).toHaveLength(36);
   });
-
-  // test("deve retornar um erro de que o usuário já existe", async () => {
-  //   const sut = makeSut();
-  //   const user: CreateUserParams = {
-  //     username: "teste",
-  //     password: "12345",
-  //     confirmPassword: "12345",
-  //   };
-
-  //   const result = await sut.execute(user);
-
-  //   expect(result.code).toBe(400);
-  // });
-
-  // test("deve retornar 201. o usuário foi criado", async () => {
-  //   const user: CreateUserParams = {
-  //     username: createUuid(),
-  //     password: "1234",
-  //     confirmPassword: "1234",
-  //   };
-
-  //   const sut = makeSut();
-
-  //   const result = await sut.execute(user);
-
-  //   expect(result.code).toBe(201);
-  // });
 });

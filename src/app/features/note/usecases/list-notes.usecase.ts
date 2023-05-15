@@ -20,7 +20,7 @@ export class ListNotesUsecase {
     if (cachedResult !== null) {
       return {
         ok: true,
-        code: 201,
+        code: 200,
         message: "Notes listed -- Cache",
         data: cachedResult,
       };
@@ -35,7 +35,7 @@ export class ListNotesUsecase {
 
     return {
       ok: true,
-      code: 201,
+      code: 200,
       message: "Notes listed",
       data: result,
     };

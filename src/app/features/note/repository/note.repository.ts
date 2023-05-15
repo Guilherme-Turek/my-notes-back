@@ -18,20 +18,20 @@ export class NoteRepository {
     return NoteRepository.mapEntityToModel(result);
   }
 
-  public async get(id: string) {
-    const result = await this.repository.findOne({
-      where: {
-        id,
-      },
-      relations: ["user"],
-    });
+  // public async get(id: string) {
+  //   const result = await this.repository.findOne({
+  //     where: {
+  //       id,
+  //     },
+  //     relations: ["user"],
+  //   });
 
-    if (result === null) {
-      return null;
-    }
+  //   if (result === null) {
+  //     return null;
+  //   }
 
-    return NoteRepository.mapEntityToModel(result);
-  }
+  //   return NoteRepository.mapEntityToModel(result);
+  // }
 
   public async list(idUser: string) {
     const result = await this.repository.find({

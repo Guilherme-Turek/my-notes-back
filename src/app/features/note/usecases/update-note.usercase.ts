@@ -1,5 +1,6 @@
 import { NoteStatus } from "../../../models/note.model";
 import { CacheRepository } from "../../../shared/repositories/cache.repository";
+import { Return } from "../../../shared/utils/return.contract";
 import { UserRepository } from "../../user/repository/user.repository";
 import { NoteRepository } from "../repository/note.repository";
 
@@ -12,7 +13,7 @@ interface uptadeNoteParams {
 }
 
 export class UpdateNoteUsecase {
-  public async execute(data: uptadeNoteParams) {
+  public async execute(data: uptadeNoteParams): Promise<Return> {
     const userRepository = new UserRepository();
     const user = await userRepository.get(data.idUser);
 

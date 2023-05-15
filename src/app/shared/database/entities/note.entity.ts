@@ -47,9 +47,4 @@ export class NoteEntity {
     name: "dthr_update",
   })
   dthrUpdate: Date;
-
-  @BeforeUpdate()
-  beforeUpdate() {
-    this.dthrUpdate = new Date();
-  }
 }
