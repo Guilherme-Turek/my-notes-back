@@ -7,7 +7,8 @@ import {
 } from "../../../../../src/app/features/user/usecases/create-user.usecase";
 import { UserRepository } from "../../../../../src/app/features/user/repository/user.repository";
 import { UserValidatorCreate } from "../../../../../src/app/features/user/validators/user.create.validator";
-describe("Create user controller unit tests", () => {
+import { UserEntity } from "../../../../../src/app/shared/database/entities/user.entity";
+describe("Create user controller tests", () => {
   beforeAll(async () => {
     await TypeormConnection.connect();
   });
@@ -67,16 +68,33 @@ describe("Create user controller unit tests", () => {
     expect(result).toHaveProperty("body.message", "Passwords do not match");
   });
 
-  test("deveria retornar status 201 quando o usecase executar com sucesso ", async () => {
-    jest.spyOn(CreateUserUsecase.prototype, "execute").mockResolvedValue({
-      ok: true,
-      code: 201,
-      message: "User created",
-      data: {},
+  test("deveria retornar status 400 se o usuário já existir ", async () => {
+    const repository = TypeormConnection.connection.getRepository(UserEntity);
+
+    await repository.clear();
+
+    const user = await repository.create({
+      id: "anyid",
+      username: "anyusername",
+      password: "anypassword",
     });
 
+    await repository.save(user);
+
     const result = await request(app).post("/users").send({
-      username: "anyname",
+      username: "anyusername",
+      password: "anypassword",
+      confirmPassword: "anypassword",
+    });
+    expect(result).toBeDefined();
+    expect(result.statusCode).toBe(400);
+  });
+
+  test("deveria retornar status 201 quando o usecase executar com sucesso ", async () => {
+    await TypeormConnection.connection.getRepository(UserEntity).clear();
+
+    const result = await request(app).post("/users").send({
+      username: "anyusername",
       password: "anypassword",
       confirmPassword: "anypassword",
     });

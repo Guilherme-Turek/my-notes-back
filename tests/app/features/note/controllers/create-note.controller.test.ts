@@ -4,6 +4,9 @@ import { createApp } from "../../../../../src/main/config/express.config";
 import { CreateNoteUsecase } from "../../../../../src/app/features/note/usecases/create-note.usecase";
 import { NoteController } from "../../../../../src/app/features/note/controllers/note.controller";
 import { UserRepository } from "../../../../../src/app/features/user/repository/user.repository";
+import { User } from "../../../../../src/app/models/user.model";
+import { NoteRepository } from "../../../../../src/app/features/note/repository/note.repository";
+import { Note } from "../../../../../src/app/models/note.model";
 describe("Create note controller tests", () => {
   beforeAll(async () => {
     await TypeormConnection.connect();
@@ -44,6 +47,14 @@ describe("Create note controller tests", () => {
   });
 
   test("deveria retornar status 201 quando o usecase executar com sucesso ", async () => {
+    jest
+      .spyOn(UserRepository.prototype, "getByUsername")
+      .mockResolvedValue(new User("anyusername", "anypassword"));
+
+    jest
+      .spyOn(NoteRepository.prototype, "create")
+      .mockResolvedValue(new Note("anytitle", "anydescription", "anyiduser"));
+
     jest.spyOn(CreateNoteUsecase.prototype, "execute").mockResolvedValue({
       ok: true,
       code: 201,
@@ -54,6 +65,7 @@ describe("Create note controller tests", () => {
     const result = await request(app).post("/users/:idUser/notes").send({
       title: "anytitle",
       description: "anydescription",
+      idUSer: "anyiduser",
     });
     expect(result).toBeDefined();
     expect(result.statusCode).toBe(201);

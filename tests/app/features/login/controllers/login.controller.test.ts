@@ -42,12 +42,12 @@ describe("Create user controller tests", () => {
   });
 
   test("deve retornar 200 se o usecase for executado", async () => {
-    jest.spyOn(LoginUsecase.prototype, "execute").mockResolvedValue({
-      ok: true,
-      code: 200,
-      message: "Login successfully",
-      data: {},
-    });
+    // jest.spyOn(LoginUsecase.prototype, "execute").mockResolvedValue({
+    //   ok: true,
+    //   code: 200,
+    //   message: "Login successfully",
+    //   data: {},
+    // });
 
     const result = await request(app).post("/login").send({
       username: "anyusername",

@@ -57,7 +57,7 @@ describe("Create note usecase test", () => {
     const result = await sut.execute({
       title: "anytitle",
       description: "anydescription",
-      idUser: "anyid",
+      idUser: "anyiduser",
     });
     expect(result).toBeDefined();
     expect(result.code).toBe(201);
