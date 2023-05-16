@@ -76,6 +76,6 @@ describe("Create note controller integration tests", () => {
     });
 
     expect(result).toBeDefined();
-    expect(result.statusCode).toBe(201);
+    expect(result.statusCode).toEqual(201);
   });
 });

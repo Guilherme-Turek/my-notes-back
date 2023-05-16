@@ -8,6 +8,7 @@ import { UserRepository } from "../../../../../src/app/features/user/repository/
 import { RedisConnection } from "../../../../../src/main/database/redis.connections";
 import { NoteEntity } from "../../../../../src/app/shared/database/entities/note.entity";
 import { UserEntity } from "../../../../../src/app/shared/database/entities/user.entity";
+import { User } from "../../../../../src/app/models/user.model";
 describe("update note controller tests", () => {
   beforeAll(async () => {
     await TypeormConnection.connect();
@@ -40,24 +41,50 @@ describe("update note controller tests", () => {
     expect(result.statusCode).toBe(404);
   });
 
-  test("deve retornar 404 quando não encontrar nota ", async () => {
-    const result = await request(app).put("/users/:idUser/notes").send({
-      title: "anytitle",
-      description: "anydescription",
-      idUser: "anyiduser",
-    });
+  test("deveria retornar status 404 quando não encontrar nota ", async () => {
+    const userRepository =
+      TypeormConnection.connection.getRepository(UserEntity);
+
+    const newUser = userRepository.create(
+      new User("anyusername", "anypassword")
+    );
+
+    await userRepository.save(newUser);
+
+    const result = await request(app).delete(`/users/${newUser.id}/notes/:id`);
+
     expect(result).toBeDefined();
     expect(result.statusCode).toBe(404);
   });
 
-  test.skip("deveria retornar status 200 quando o usecase executar com sucesso ", async () => {
-    const result = await request(app).put("/users/:idUser/notes/id").send({
-      id: "anyid",
-      idUser: "anyiduser",
-      title: "anytitle",
-      description: "anydescription",
-      status: NoteStatus.active,
-    });
+  test("deveria retornar status 200 quando o usecase executar com sucesso ", async () => {
+    const userRepository =
+      TypeormConnection.connection.getRepository(UserEntity);
+
+    const newUser = userRepository.create(
+      new User("anyusername", "anypassword")
+    );
+
+    await userRepository.save(newUser);
+
+    const noteRepository =
+      TypeormConnection.connection.getRepository(NoteEntity);
+
+    const newNote = noteRepository.create(
+      new Note("anytitle", "anydescription", newUser.id)
+    );
+
+    await noteRepository.save(newNote);
+
+    const result = await request(app)
+      .put(`/users/${newUser.id}/notes/${newNote.id}`)
+      .send({
+        id: newNote.id,
+        idUser: newUser.id,
+        title: "anyothertitle",
+        description: "anyotherdescription",
+        status: NoteStatus.filed,
+      });
     expect(result).toBeDefined();
     expect(result.statusCode).toBe(200);
   });

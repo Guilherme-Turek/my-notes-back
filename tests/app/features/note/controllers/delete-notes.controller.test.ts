@@ -38,7 +38,7 @@ describe("delete note controller tests", () => {
     expect(result.statusCode).toBe(404);
   });
 
-  test.skip("deveria retornar status 200 quando o usecase executar com sucesso ", async () => {
+  test("deveria retornar status 404 quando não encontrar nota ", async () => {
     const userRepository =
       TypeormConnection.connection.getRepository(UserEntity);
 
@@ -47,6 +47,23 @@ describe("delete note controller tests", () => {
     );
 
     await userRepository.save(newUser);
+
+    const result = await request(app).delete(`/users/${newUser.id}/notes/:id`);
+
+    expect(result).toBeDefined();
+    expect(result.statusCode).toBe(404);
+  });
+
+  test("deveria retornar status 200 quando o usecase executar com sucesso ", async () => {
+    const userRepository =
+      TypeormConnection.connection.getRepository(UserEntity);
+
+    const newUser = userRepository.create(
+      new User("anyusername", "anypassword")
+    );
+
+    await userRepository.save(newUser);
+
     const noteRepository =
       TypeormConnection.connection.getRepository(NoteEntity);
 
@@ -54,11 +71,12 @@ describe("delete note controller tests", () => {
       new Note("anytitle", "anydescription", newUser.id)
     );
 
-    await userRepository.save(newNote);
+    await noteRepository.save(newNote);
 
     const result = await request(app).delete(
       `/users/${newUser.id}/notes/${newNote.id}`
     );
+
     expect(result).toBeDefined();
     expect(result.statusCode).toBe(200);
   });

@@ -56,8 +56,6 @@ export class NoteRepository {
       relations: ["user"],
     });
 
-    console.log("result", result);
-
     if (!result) {
       return null;
     }
