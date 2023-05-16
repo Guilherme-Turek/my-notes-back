@@ -1,12 +1,8 @@
 import request from "supertest";
 import { TypeormConnection } from "../../../../../src/main/database/typeorm.connection";
 import { createApp } from "../../../../../src/main/config/express.config";
-import {
-  CreateUserParams,
-  CreateUserUsecase,
-} from "../../../../../src/app/features/user/usecases/create-user.usecase";
+import { CreateUserUsecase } from "../../../../../src/app/features/user/usecases/create-user.usecase";
 import { UserRepository } from "../../../../../src/app/features/user/repository/user.repository";
-import { UserValidatorCreate } from "../../../../../src/app/features/user/validators/user.create.validator";
 import { UserEntity } from "../../../../../src/app/shared/database/entities/user.entity";
 import { NoteEntity } from "../../../../../src/app/shared/database/entities/note.entity";
 describe("Create user controller tests", () => {
