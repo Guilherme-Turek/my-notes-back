@@ -6,7 +6,7 @@ import { UserRepository } from "../../../../../src/app/features/user/repository/
 import { UserEntity } from "../../../../../src/app/shared/database/entities/user.entity";
 import { NoteEntity } from "../../../../../src/app/shared/database/entities/note.entity";
 import { User } from "../../../../../src/app/models/user.model";
-describe("Login user controller tests", () => {
+describe("Login user controller integration tests", () => {
   beforeAll(async () => {
     await TypeormConnection.connect();
   });

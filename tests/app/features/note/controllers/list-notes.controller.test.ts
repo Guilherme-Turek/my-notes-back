@@ -5,7 +5,7 @@ import { User } from "../../../../../src/app/models/user.model";
 import { UserEntity } from "../../../../../src/app/shared/database/entities/user.entity";
 import { NoteEntity } from "../../../../../src/app/shared/database/entities/note.entity";
 import { RedisConnection } from "../../../../../src/main/database/redis.connections";
-describe("list note controller tests", () => {
+describe("list note controller integration tests", () => {
   beforeAll(async () => {
     await TypeormConnection.connect();
     await RedisConnection.connect();

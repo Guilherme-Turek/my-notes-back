@@ -6,7 +6,7 @@ import { Note, NoteStatus } from "../../../../../src/app/models/note.model";
 import { NoteRepository } from "../../../../../src/app/features/note/repository/note.repository";
 import { UserRepository } from "../../../../../src/app/features/user/repository/user.repository";
 import { RedisConnection } from "../../../../../src/main/database/redis.connections";
-describe("update note controller tests", () => {
+describe("update note controller unit tests", () => {
   beforeAll(async () => {
     await TypeormConnection.connect();
     await RedisConnection.connect();

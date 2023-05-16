@@ -9,7 +9,7 @@ import { RedisConnection } from "../../../../../src/main/database/redis.connecti
 import { NoteEntity } from "../../../../../src/app/shared/database/entities/note.entity";
 import { UserEntity } from "../../../../../src/app/shared/database/entities/user.entity";
 import { User } from "../../../../../src/app/models/user.model";
-describe("update note controller tests", () => {
+describe("update note controller integration tests", () => {
   beforeAll(async () => {
     await TypeormConnection.connect();
     await RedisConnection.connect();

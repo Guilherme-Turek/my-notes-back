@@ -4,7 +4,7 @@ import { createApp } from "../../../../../src/main/config/express.config";
 import { DeleteNoteUsecase } from "../../../../../src/app/features/note/usecases/delete-note.usecase";
 import { UserRepository } from "../../../../../src/app/features/user/repository/user.repository";
 import { NoteRepository } from "../../../../../src/app/features/note/repository/note.repository";
-describe("delete note controller tests", () => {
+describe("delete note controller unit tests", () => {
   beforeAll(async () => {
     await TypeormConnection.connect();
   });

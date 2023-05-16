@@ -4,7 +4,7 @@ import { createApp } from "../../../../../src/main/config/express.config";
 import { ListNotesUsecase } from "../../../../../src/app/features/note/usecases/list-notes.usecase";
 import { UserRepository } from "../../../../../src/app/features/user/repository/user.repository";
 import { NoteRepository } from "../../../../../src/app/features/note/repository/note.repository";
-describe("list note controller tests", () => {
+describe("list note controller unit tests", () => {
   beforeAll(async () => {
     await TypeormConnection.connect();
   });
