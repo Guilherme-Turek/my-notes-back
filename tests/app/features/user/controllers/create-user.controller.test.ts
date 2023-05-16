@@ -8,6 +8,7 @@ import {
 import { UserRepository } from "../../../../../src/app/features/user/repository/user.repository";
 import { UserValidatorCreate } from "../../../../../src/app/features/user/validators/user.create.validator";
 import { UserEntity } from "../../../../../src/app/shared/database/entities/user.entity";
+import { NoteEntity } from "../../../../../src/app/shared/database/entities/note.entity";
 describe("Create user controller tests", () => {
   beforeAll(async () => {
     await TypeormConnection.connect();
@@ -20,6 +21,15 @@ describe("Create user controller tests", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     jest.resetAllMocks();
+  });
+
+  afterEach(async () => {
+    const noteRepository =
+      TypeormConnection.connection.getRepository(NoteEntity);
+    await noteRepository.clear();
+    const userRepository =
+      TypeormConnection.connection.getRepository(UserEntity);
+    await userRepository.clear();
   });
 
   const app = createApp();
@@ -69,17 +79,15 @@ describe("Create user controller tests", () => {
   });
 
   test("deveria retornar status 400 se o usuário já existir ", async () => {
-    const repository = TypeormConnection.connection.getRepository(UserEntity);
-
-    await repository.clear();
-
-    const user = await repository.create({
+    const userRepository =
+      TypeormConnection.connection.getRepository(UserEntity);
+    const user = await userRepository.create({
       id: "anyid",
       username: "anyusername",
       password: "anypassword",
     });
 
-    await repository.save(user);
+    await userRepository.save(user);
 
     const result = await request(app).post("/users").send({
       username: "anyusername",
@@ -91,8 +99,6 @@ describe("Create user controller tests", () => {
   });
 
   test("deveria retornar status 201 quando o usecase executar com sucesso ", async () => {
-    await TypeormConnection.connection.getRepository(UserEntity).clear();
-
     const result = await request(app).post("/users").send({
       username: "anyusername",
       password: "anypassword",

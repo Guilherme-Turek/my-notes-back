@@ -21,7 +21,8 @@
     "test:integration": "cross-env API_ENV=test jest -c ./jest-integration.config.ts --silent --noStackTrace --runInBand",
     "test:integration:verbose": "cross-env API_ENV=test jest -c ./jest-integration.config.ts --verbose --runInBand --no-cache",
     "test:integration:coverage": "cross-env API_ENV=test jest -c ./jest-integration.config.ts --runInBand --coverage",
-    "test:integration:watch": "cross-env API_ENV=test jest -c ./jest-integration.config.ts --silent --noStackTrace --runInBand --watchAll"
+    "test:integration:watch": "cross-env API_ENV=test jest -c ./jest-integration.config.ts --silent --noStackTrace --runInBand --watchAll",
+    "test: setup": "rimraf database.sqlite3 && rimraf tests/app/shared/database/migrations && npm run migration:generate:test && npm run migration:run:test"
   },
   "keywords": [],
   "author": "",

@@ -1,29 +1,33 @@
 import request from "supertest";
 import { TypeormConnection } from "../../../../../src/main/database/typeorm.connection";
 import { createApp } from "../../../../../src/main/config/express.config";
-import { CreateNoteUsecase } from "../../../../../src/app/features/note/usecases/create-note.usecase";
-import { NoteController } from "../../../../../src/app/features/note/controllers/note.controller";
-import { UserRepository } from "../../../../../src/app/features/user/repository/user.repository";
+import { NoteEntity } from "../../../../../src/app/shared/database/entities/note.entity";
+import { UserEntity } from "../../../../../src/app/shared/database/entities/user.entity";
 import { User } from "../../../../../src/app/models/user.model";
-import { NoteRepository } from "../../../../../src/app/features/note/repository/note.repository";
-import { Note } from "../../../../../src/app/models/note.model";
-describe("Create note controller tests", () => {
+import { RedisConnection } from "../../../../../src/main/database/redis.connections";
+describe("Create note controller integration tests", () => {
   beforeAll(async () => {
     await TypeormConnection.connect();
+    await RedisConnection.connect();
   });
 
   afterAll(async () => {
     await TypeormConnection.connection.destroy();
+    await RedisConnection.connection.quit();
   });
 
-  beforeEach(() => {
-    jest.clearAllMocks();
-    jest.resetAllMocks();
+  afterEach(async () => {
+    const noteRepository =
+      TypeormConnection.connection.getRepository(NoteEntity);
+    await noteRepository.clear();
+    const userRepository =
+      TypeormConnection.connection.getRepository(UserEntity);
+    await userRepository.clear();
   });
 
   const app = createApp();
 
-  test("deveria retornar 400 se o title não for informado", async () => {
+  test("deveria retornar 400 quando o title não for informado", async () => {
     const result = await request(app).post("/users/:idUser/notes").send({
       description: "anydescription",
     });
@@ -33,7 +37,7 @@ describe("Create note controller tests", () => {
     expect(result).toHaveProperty("body.message", "Title was not provided!");
   });
 
-  test("deveria retornar 400 se a descrição não for informado", async () => {
+  test("deveria retornar 400 quando a descrição não for informado", async () => {
     const result = await request(app).post("/users/:idUser/notes").send({
       title: "anytitle",
     });
@@ -46,52 +50,32 @@ describe("Create note controller tests", () => {
     );
   });
 
-  test("deveria retornar status 201 quando o usecase executar com sucesso ", async () => {
-    jest
-      .spyOn(UserRepository.prototype, "getByUsername")
-      .mockResolvedValue(new User("anyusername", "anypassword"));
-
-    jest
-      .spyOn(NoteRepository.prototype, "create")
-      .mockResolvedValue(new Note("anytitle", "anydescription", "anyiduser"));
-
-    jest.spyOn(CreateNoteUsecase.prototype, "execute").mockResolvedValue({
-      ok: true,
-      code: 201,
-      message: "Note created",
-      data: {},
-    });
-
+  test("deve retornar 404 quando não encontrar usuário ", async () => {
     const result = await request(app).post("/users/:idUser/notes").send({
       title: "anytitle",
       description: "anydescription",
-      idUSer: "anyiduser",
+      idUser: "anyiduser",
     });
     expect(result).toBeDefined();
-    expect(result.statusCode).toBe(201);
+    expect(result.statusCode).toBe(404);
   });
 
-  test("deve retornar status 500 quando o usecase gerar exception", async () => {
-    jest
-      .spyOn(UserRepository.prototype, "getByUsername")
-      .mockResolvedValue(null);
-    jest
-      .spyOn(CreateNoteUsecase.prototype, "execute")
-      .mockImplementation((_: any) => {
-        throw new Error("Erro simulado usecase");
-      });
+  test("deve retornar 201 se a nota for criada ", async () => {
+    const userRepository =
+      TypeormConnection.connection.getRepository(UserEntity);
 
-    const result = await request(app).post("/users/:idUser/notes").send({
+    const newUser = userRepository.create(
+      new User("anyusername", "anypassword")
+    );
+
+    await userRepository.save(newUser);
+
+    const result = await request(app).post(`/users/${newUser.id}/notes`).send({
       title: "anytitle",
       description: "anydescription",
-      idUser: "anyidUser",
     });
 
     expect(result).toBeDefined();
-    expect(result.statusCode).toBe(500);
-    expect(result).toHaveProperty(
-      "body.message",
-      "Error: Erro simulado usecase"
-    );
+    expect(result.statusCode).toBe(201);
   });
 });

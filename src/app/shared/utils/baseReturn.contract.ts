@@ -1,6 +1,5 @@
-export interface Return {
+export interface BaseReturn {
   ok: boolean;
   code: number;
   message: string;
-  data?: any;
 }

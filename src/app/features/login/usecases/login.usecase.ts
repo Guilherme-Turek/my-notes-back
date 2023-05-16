@@ -1,4 +1,4 @@
-import { Return } from "../../../shared/utils/return.contract";
+import { UserReturn } from "../../../shared/utils/userReturn.contract";
 import { UserRepository } from "../../user/repository/user.repository";
 
 export interface LoginParams {
@@ -7,7 +7,7 @@ export interface LoginParams {
 }
 
 export class LoginUsecase {
-  public async execute(data: LoginParams): Promise<Return> {
+  public async execute(data: LoginParams): Promise<UserReturn> {
     const repository = new UserRepository();
     const user = await repository.getByUsername(data.username, data.password);
 

@@ -99,7 +99,7 @@ export class NoteRepository {
       };
     }
 
-    return null;
+    return undefined;
   }
 
   public static mapEntityToModel(entity: NoteEntity): Note {

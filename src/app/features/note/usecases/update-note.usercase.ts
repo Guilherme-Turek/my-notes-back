@@ -1,6 +1,6 @@
-import { NoteStatus } from "../../../models/note.model";
+import { Note, NoteStatus } from "../../../models/note.model";
 import { CacheRepository } from "../../../shared/repositories/cache.repository";
-import { Return } from "../../../shared/utils/return.contract";
+import { NoteReturn } from "../../../shared/utils/noteReturn.contratc";
 import { UserRepository } from "../../user/repository/user.repository";
 import { NoteRepository } from "../repository/note.repository";
 
@@ -13,7 +13,7 @@ interface uptadeNoteParams {
 }
 
 export class UpdateNoteUsecase {
-  public async execute(data: uptadeNoteParams): Promise<Return> {
+  public async execute(data: uptadeNoteParams): Promise<NoteReturn> {
     const userRepository = new UserRepository();
     const user = await userRepository.get(data.idUser);
 
@@ -45,11 +45,16 @@ export class UpdateNoteUsecase {
 
     await new CacheRepository().delete(`notesOfUser:${data.idUser}`);
 
+    let dataNote: Note = note;
+    if (result?.title) dataNote.title = result.title;
+    if (result?.description) dataNote.description = result.description;
+    if (result?.status) dataNote.status = result.status;
+
     return {
       ok: true,
       code: 200,
       message: "Note edit",
-      data: result,
+      data: dataNote,
     };
   }
 }

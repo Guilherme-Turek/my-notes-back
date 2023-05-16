@@ -1,6 +1,6 @@
 import { UserRepository } from "../repository/user.repository";
 import { User } from "../../../models/user.model";
-import { Return } from "../../../shared/utils/return.contract";
+import { UserReturn } from "../../../shared/utils/userReturn.contract";
 
 export interface CreateUserParams {
   username: string;
@@ -9,7 +9,7 @@ export interface CreateUserParams {
 }
 
 export class CreateUserUsecase {
-  public async execute(data: CreateUserParams): Promise<Return> {
+  public async execute(data: CreateUserParams): Promise<UserReturn> {
     const repository = new UserRepository();
     const user = await repository.getByUsername(data.username);
 
