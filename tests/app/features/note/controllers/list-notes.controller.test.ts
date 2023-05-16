@@ -49,6 +49,7 @@ describe("list note controller tests", () => {
 
     const result = await request(app).get(`/users/${newUser.id}/notes`);
     expect(result).toBeDefined();
+    expect(result.ok).toBeTruthy();
     expect(result.statusCode).toBe(200);
   });
 });

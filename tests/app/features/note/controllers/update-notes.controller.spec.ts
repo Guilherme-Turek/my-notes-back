@@ -2,7 +2,7 @@ import request from "supertest";
 import { TypeormConnection } from "../../../../../src/main/database/typeorm.connection";
 import { createApp } from "../../../../../src/main/config/express.config";
 import { UpdateNoteUsecase } from "../../../../../src/app/features/note/usecases/update-note.usercase";
-import { NoteStatus } from "../../../../../src/app/models/note.model";
+import { Note, NoteStatus } from "../../../../../src/app/models/note.model";
 import { NoteRepository } from "../../../../../src/app/features/note/repository/note.repository";
 import { UserRepository } from "../../../../../src/app/features/user/repository/user.repository";
 import { RedisConnection } from "../../../../../src/main/database/redis.connections";

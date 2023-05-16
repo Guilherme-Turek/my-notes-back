@@ -4,9 +4,6 @@ import { createApp } from "../../../../../src/main/config/express.config";
 import { ListNotesUsecase } from "../../../../../src/app/features/note/usecases/list-notes.usecase";
 import { UserRepository } from "../../../../../src/app/features/user/repository/user.repository";
 import { NoteRepository } from "../../../../../src/app/features/note/repository/note.repository";
-import { DeleteNoteUsecase } from "../../../../../src/app/features/note/usecases/delete-note.usecase";
-import { User } from "../../../../../src/app/models/user.model";
-import { UserEntity } from "../../../../../src/app/shared/database/entities/user.entity";
 describe("list note controller tests", () => {
   beforeAll(async () => {
     await TypeormConnection.connect();

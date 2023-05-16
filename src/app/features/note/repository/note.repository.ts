@@ -18,21 +18,6 @@ export class NoteRepository {
     return NoteRepository.mapEntityToModel(result);
   }
 
-  // public async get(id: string) {
-  //   const result = await this.repository.findOne({
-  //     where: {
-  //       id,
-  //     },
-  //     relations: ["user"],
-  //   });
-
-  //   if (result === null) {
-  //     return null;
-  //   }
-
-  //   return NoteRepository.mapEntityToModel(result);
-  // }
-
   public async list(idUser: string) {
     const result = await this.repository.find({
       where: {
@@ -40,10 +25,6 @@ export class NoteRepository {
       },
       relations: ["user"],
     });
-
-    if (result === null) {
-      return null;
-    }
 
     return result.map((note) => NoteRepository.mapEntityToModel(note));
   }
